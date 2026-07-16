@@ -1,0 +1,55 @@
+# Dicionário global dos planos
+planos = {
+    'BASICO_1':  {'Cobertura': 'Regional', 'Valor mensal': 270},
+    'BASICO_2':  {'Cobertura': 'Nacional', 'Valor mensal': 360},
+    'PREMIUM_1': {'Cobertura': 'Regional', 'Valor mensal': 520},
+    'PREMIUM_2': {'Cobertura': 'Nacional', 'Valor mensal': 610}
+}
+
+
+def cadastrar_plano():
+    print("\n=== Cadastrar novo plano ===")
+    nome = input("Nome do novo plano (ex: Vip_1): ").strip().upper()
+    if nome in planos:
+        print("Já existe um plano com esse nome.")
+        return
+
+    cobertura = input("Cobertura (Regional/Nacional): ").strip().upper()
+    valor = float(input("Valor mensal (R$): "))
+
+    planos[nome] = {'Cobertura': cobertura, 'Valor mensal': valor}
+    print(f"Plano {nome} cadastrado com sucesso!")
+
+
+def listar_planos():
+    if not planos:
+        print("Nenhum plano cadastrado.")
+    else:
+        print("\nLista de planos disponíveis:")
+        for nome in planos.keys():
+            print(f"- {nome}")
+
+
+def consultar_plano():
+    nome = input("\nDigite o nome do plano para consultar (ex: Basico_1): ").strip().upper()
+    plano = planos.get(nome)
+    if plano:
+        print(f"\nPlano encontrado: {nome}")
+        print(f"- Cobertura: {plano['Cobertura']}")
+        print(f"- Valor mensal: R${plano['Valor mensal']}")
+    else:
+        print("Plano não encontrado.")
+
+
+def consultar_todos_planos():
+#mostra todos os planos com detalhes.
+    if not planos:
+        print("Nenhum plano cadastrado.")
+    else:
+        print("\nConsulta geral de todos os planos:")
+        print("="*45)
+        for nome, dados in planos.items():
+            print(f"Plano: {nome}")
+            print(f"- Cobertura: {dados['Cobertura']}")
+            print(f"- Valor mensal: R${dados['Valor mensal']}")
+            print("-"*45)

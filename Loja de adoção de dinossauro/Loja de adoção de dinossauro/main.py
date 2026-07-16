@@ -1,0 +1,192 @@
+import Cadastro_dinossauros
+import Cadastro_funcionarios
+import plano_saude
+from financeiro import Financeiro
+
+consultas = []
+tratamentos = []
+financeiro = Financeiro()
+
+#menu agenda
+def agendar_consulta():
+    try:
+        nome = input("Nome do dinossauro: ")
+        data = input("Data da consulta (DD/MM/AAAA): ")
+        hora = input("Horário (HH:MM): ")
+        consultas.append({"nome": nome, "data": data, "hora": hora})
+        print("Consulta agendada com sucesso!")
+    except Exception as e:
+        print(f"Erro ao agendar consulta: {e}")
+
+def listar_consultas():
+    if not consultas:
+        print("Nenhuma consulta agendada.")
+    else:
+        print("\n Consultas agendadas:")
+        for c in consultas:
+            print(f"- {c['nome']} | Data: {c['data']} | Hora: {c['hora']}")
+
+def agendar_tratamento():
+    try:
+        nome = input("Nome do dinossauro: ")
+        descricao = input("Descrição do tratamento: ")
+        data = input("Data do tratamento (DD/MM/AAAA): ")
+        tratamentos.append({"nome": nome, "descricao": descricao, "data": data})
+        print("Tratamento agendado com sucesso!")
+    except Exception as e:
+        print(f"Erro ao agendar tratamento: {e}")
+
+def listar_tratamentos():
+    if not tratamentos:
+        print("Nenhum tratamento agendado.")
+    else:
+        print("\nTratamentos agendados:")
+        for t in tratamentos:
+            print(f"- {t['nome']} | {t['descricao']} | Data: {t['data']}")
+
+def menu_agenda():
+    while True:
+        print("\n=== Menu de Agendamento ===")
+        print("1 - Agendar Consulta")
+        print("2 - Listar Consultas")
+        print("3 - Agendar Tratamento")
+        print("4 - Listar Tratamentos")
+        print("5 - Voltar ao menu principal")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            agendar_consulta()
+        elif opcao == "2":
+            listar_consultas()
+        elif opcao == "3":
+            agendar_tratamento()
+        elif opcao == "4":
+            listar_tratamentos()
+        elif opcao == "5":
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+#menu financeiro
+def menu_financeiro():
+    while True:
+        print("\n=== Menu Financeiro ===")
+        print("1 - Registrar Receita")
+        print("2 - Registrar Despesa")
+        print("3 - Consultar Saldo")
+        print("4 - Consultar Histórico")
+        print("5 - Voltar")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            valor = float(input("Valor da receita: "))
+            desc = input("Descrição: ")
+            financeiro.registrar_receita(valor, desc)
+        elif opcao == "2":
+            valor = float(input("Valor da despesa: "))
+            desc = input("Descrição: ")
+            financeiro.registrar_despesa(valor, desc)
+        elif opcao == "3":
+            financeiro.consultar_saldo()
+        elif opcao == "4":
+            financeiro.consultar_historico()
+        elif opcao == "5":
+            break
+        else:
+            print("Opção inválida.")
+
+#menu planos de saúde
+def menu_planos():
+    while True:
+        print("\n=== Menu Planos de Saúde ===")
+        print("1 - Cadastrar Plano")
+        print("2 - Listar Planos")
+        print("3 - Consultar Plano")
+        print("4 - Voltar")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            plano_saude.cadastrar_plano()
+        elif opcao == "2":
+            plano_saude.listar_planos()
+        elif opcao == "3":
+            plano_saude.consultar_plano()
+        elif opcao == "4":
+            break
+        else:
+            print("Opção inválida.")
+
+#menu principal
+def menu_principal():
+    while True:
+        print("\n=== Menu Principal ===")
+        print("1 - Login")
+        print("2 - Menu de Dinossauros")
+        print("3 - Menu de Agenda (Consultas/Tratamentos)")
+        print("4 - Menu Financeiro")
+        print("5 - Menu Planos de Saúde")
+        print("6 - Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            while True:
+                print("\n=== Menu de Login ===")
+                print("1 - Cadastrar Funcionário")
+                print("2 - Fazer Login")
+                print("3 - Voltar")
+                sub = input("Escolha uma opção: ")
+
+                if sub == "1":
+                    Cadastro_funcionarios.cadastrar_funcionario()
+                elif sub == "2":
+                    if login_funcionario():
+                        Cadastro_funcionarios.Menu_funcionario()
+                elif sub == "3":
+                    break
+                else:
+                    print("Opção inválida.")
+
+        elif opcao == "2":
+            print("\n1 - Cadastrar Dinossauro\n2 - Listar Dinossauros\n3 - Voltar")
+            sub = input("Escolha uma opção: ")
+            if sub == "1":
+                Cadastro_dinossauros.cadastro_dinossauro()
+            elif sub == "2":
+                for d in Cadastro_dinossauros.dinossauros:
+                    d.exibir_dados()
+            elif sub == "3":
+                continue
+            else:
+                print("Opção inválida.")
+
+        elif opcao == "3":
+            menu_agenda()
+        elif opcao == "4":
+            menu_financeiro()
+        elif opcao == "5":
+            menu_planos()
+        elif opcao == "6":
+            print("Encerrando o sistema. Até mais!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+
+#login funcionário
+def login_funcionario():
+    print("\n=== Login ===")
+    IDL = input("Digite o ID: ")
+    senhaL = input("Digite a senha: ")
+    for f in Cadastro_funcionarios.funcionarios:
+        if f.ID == IDL and f.senha == senhaL:
+            print(f"\nLogin bem-sucedido! Bem-vindo, {f.nome}.")
+            return True
+    print("\nID ou senha incorretos.")
+    return False
+
+if __name__ == "__main__":
+    menu_principal()

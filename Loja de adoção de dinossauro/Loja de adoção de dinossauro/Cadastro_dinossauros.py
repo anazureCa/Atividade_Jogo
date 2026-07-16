@@ -1,0 +1,178 @@
+class Dinossauros():
+    def __init__(self,nome,ID,especie,tamanho,alimentacao,idade,nivel_perigo):
+        self._nome = nome
+        self._ID = ID
+        self._especie = especie
+        self._tamanho = tamanho
+        self._alimentacao = alimentacao
+        self._idade = idade
+        self._nivel_perigo = nivel_perigo
+
+    @property
+    def nome(self): 
+        return self._nome
+    
+    @nome.setter
+    def nome(self,novo_nome):
+        self._nome = novo_nome
+
+    @property
+    def ID(self):
+        return self._ID   
+
+    @ID.setter
+    def ID(self,novo_ID):
+        self._ID = novo_ID
+
+    @property
+    def especie(self):
+        return self._especie
+    
+    @especie.setter
+    def especie(self,nova_especie):
+        self._especie = nova_especie
+    
+    @property
+    def tamanho(self):
+        return self._tamanho
+    
+    @tamanho.setter
+    def tamanho(self,novo_tamanho):
+        if novo_tamanho < 0:
+            print('O tamanho não pode ser negativo')
+        else:
+            self._tamanho = novo_tamanho
+
+    @property
+    def alimentacao(self):
+        return self._alimentacao
+    
+    @alimentacao.setter
+    def alimentacao(self,nova_alimentacao):
+        self._alimentacao = nova_alimentacao
+    
+    @property
+    def idade(self):
+        return self._idade
+    
+    @idade.setter
+    def idade(self,nova_idade):
+        if nova_idade < 0:
+            print('A idade não pode ser negativa')
+        else:
+            self._idade = nova_idade
+    
+    @property
+    def nivel_perigo(self):
+        return self._nivel_perigo
+    
+    @nivel_perigo.setter
+    def nivel_perigo(self,novo_nivel_perigo):
+        if novo_nivel_perigo < 0:
+            print('O nível de perigo não pode ser negativo')
+        else:
+            self._nivel_perigo = novo_nivel_perigo
+
+    def exibir_dados(self):
+        print("Exibindo dados do dinossauro:")
+        print("\n" + "="*40 +
+        f'\nNome: {self._nome}'
+        '\n'+ '='*40)
+        print(f'ID: {self._ID}')
+        print(f'Espécie: {self._especie}')
+        print(f'Idade: {self._idade}')
+        print(f'Tamanho: {self._tamanho} CM')
+        print(f'Tipo de alimentação: {self._alimentacao}')
+        print(f'Nível de perigo: {self._nivel_perigo}'+
+              "\n" + "="*40)
+
+class Herbivoro(Dinossauros):
+    def __init__(self, nome, ID, especie, tamanho, idade, nivel_perigo, tipo_vegetacao):
+        super().__init__(nome, ID, especie, tamanho, "Herbívoro", idade, nivel_perigo)
+        self.tipo_vegetacao = tipo_vegetacao
+
+    def exibir_dados(self):
+        super().exibir_dados()
+        print(f"Tipo de vegetação preferida: {self.tipo_vegetacao}")
+
+class Carnivoro(Dinossauros):
+    def __init__(self, nome, ID, especie, tamanho, idade, nivel_perigo, tipo_caca):
+        super().__init__(nome, ID, especie, tamanho, "Carnívoro", idade, nivel_perigo)
+        self.tipo_caca = tipo_caca
+
+    def exibir_dados(self):
+        super().exibir_dados()
+        print(f"Tipo de caça preferida: {self.tipo_caca}")
+
+
+dinossauros = []
+
+def cadastro_dinossauro():
+    especies = ('Ankylosaurus','Carnotaurus','Corythosaurus','Euoplocephalus','Mononykus','Ornithomimus','Pachycephalosaurus','Rinchenia','Saltasaurus','Saurornithoides')
+    nome = input('Insira o nome do Dinossauro: ')
+    while True:
+        try:
+            ID = int(input('Insira o ID do animal: '))
+            break
+        except ValueError:
+            print("Erro: Por favor, insira um número inteiro para o ID.")
+    print("Selecione a espécie dele:")
+    for indice, item in enumerate(especies):
+        print(f"{indice + 1}. {item}")
+    while True:
+        try:
+            escolha = int(input('Digite o número da espécie: '))
+            if 1 <= escolha <= len(especies):
+                especie = especies[escolha - 1]
+                break
+            else:
+                print(f"Escolha inválida. Digite um número entre 1 e {len(especies)}.")
+        except ValueError:
+            print("Erro: Por favor, digite um número válido.")
+    while True:
+        try:
+            idade = int(input('Insira a idade: '))
+            if idade < 0:
+                print("Idade não pode ser negativa.")
+            else:
+                break
+        except ValueError:
+            print("Erro: Por favor, insira um número inteiro para a idade.")
+    while True:
+        try:
+            tamanho = float(input('Insira o tamanho em centímetros: '))
+            if tamanho < 0:
+                print("Tamanho não pode ser negativo.")
+            else:
+                break
+        except ValueError:
+            print("Erro: Por favor, insira um número válido para o tamanho.")
+
+    while True:
+        try:
+            nivel_perigo = int(input('Insira o nível de perigo na escala de 0 a 10: '))
+            if 0 <= nivel_perigo <= 10:
+                break
+            else:
+                print("Nível de perigo deve estar entre 0 e 10.")
+        except ValueError:
+            print("Erro: Por favor, insira um número inteiro para o nível de perigo.")
+
+    while True:
+        tipo = input("Tipo de alimentação (H para Herbívoro / C para Carnívoro): ").strip().upper()
+        if tipo == 'H':
+            tipo_vegetacao = input("Tipo de vegetação preferida: ")
+            dino = Herbivoro(nome, ID, especie, tamanho, idade, nivel_perigo, tipo_vegetacao)
+            break
+        elif tipo == 'C':
+            tipo_caca = input("Tipo de caça preferida: ")
+            dino = Carnivoro(nome, ID, especie, tamanho, idade, nivel_perigo, tipo_caca)
+            break
+        else:
+            print("Digite H para herbívoro ou C para carnívoro.")
+            
+    print(f"\nDinossauro '{nome}' cadastrado com sucesso!")
+    dinossauros.append(dino)
+
+if __name__ == "__main__":
+    cadastro_dinossauro()
